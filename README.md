@@ -4,11 +4,12 @@
 ---
 
 ## **📌 Features**
-✅ **Menu Bar Only**: No Dock icon – the app lives entirely in your status bar.
-✅ **Configurable Breaks**: Set the frequency and duration of your eye breaks.
-✅ **Customizable Overlay**: Change the title and description text shown during break time.
-✅ **Pause and Resume**: Easily pause or cancel a break when needed.
-✅ **Launch at Login**: Optionally start LookAway automatically when you log in.
+✅ **Menu Bar Only** No Dock icon – the app lives entirely in your status bar  
+✅ **Configurable Breaks** Set the frequency and duration of your eye breaks  
+✅ **Customizable Overlay** Change the title and description text shown during break time  
+✅ **Pause and Resume** Easily pause or cancel a break when needed  
+✅ **Launch at Login** Optionally start LookAway automatically when you log in
+
 
 ---
 
