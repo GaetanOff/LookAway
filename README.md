@@ -88,3 +88,10 @@ Please open an **issue** or submit a **pull request** on GitHub!
 
 ## **🎉 Thank You for Using LookAway!**
 If you have any questions or suggestions, don't hesitate to contact me!
+
+
+--- 
+
+<img src="https://cdn.gaetandev.fr/lookaway/Break.png" />
+<img src="https://cdn.gaetandev.fr/lookaway/StatusBar.png" />
+<img src="https://cdn.gaetandev.fr/lookaway/Settings.png" />
