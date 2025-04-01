@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import Cocoa
 
 class TimerManager: ObservableObject {
     static let shared = TimerManager()
@@ -19,11 +20,13 @@ class TimerManager: ObservableObject {
         startTimer()
         
         settingsCancellable = SettingsManager.shared.$breakEvery.sink { [weak self] newValue in
-            guard let self = self else { return }
-            if !self.breakActive && !self.isPaused {
-                self.remainingSeconds = newValue * 60
-            }
+            guard let self = self, !self.breakActive, !self.isPaused else { return }
+            self.remainingSeconds = newValue * 60
         }
+        
+        let workspaceNC = NSWorkspace.shared.notificationCenter
+        workspaceNC.addObserver(self, selector: #selector(handleSleepOrLock), name: NSWorkspace.willSleepNotification, object: nil)
+        workspaceNC.addObserver(self, selector: #selector(handleSleepOrLock), name: NSWorkspace.sessionDidResignActiveNotification, object: nil)
     }
     
     func startTimer() {
@@ -66,7 +69,6 @@ class TimerManager: ObservableObject {
             self.pauseWorkItem = nil
             self.currentPauseDuration = nil
         }
-        
         pauseWorkItem = workItem
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(seconds), execute: workItem)
     }
@@ -86,6 +88,12 @@ class TimerManager: ObservableObject {
         breakActive = true
         OverlayWindowController.shared.showOverlay {
             self.resetTimer()
+        }
+    }
+    
+    @objc private func handleSleepOrLock() {
+        if SettingsManager.shared.resetTimerOnSleep {
+            resetTimer()
         }
     }
 }

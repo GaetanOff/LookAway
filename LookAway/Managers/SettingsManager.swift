@@ -29,6 +29,12 @@ class SettingsManager: ObservableObject {
             UserDefaults.standard.set(statusSuffix, forKey: "statusSuffix")
         }
     }
+    @Published var resetTimerOnSleep: Bool {
+        didSet {
+            UserDefaults.standard.set(resetTimerOnSleep, forKey: "resetTimerOnSleep")
+        }
+    }
+
     
     private init() {
         let defaults = UserDefaults.standard
@@ -42,6 +48,7 @@ class SettingsManager: ObservableObject {
         overlayTitle = defaults.string(forKey: "overlayTitle") ?? "Relax those eyes"
         overlayDescription = defaults.string(forKey: "overlayDescription") ?? "Choose a distant view to set your sight on until the timer ends"
         statusSuffix = defaults.string(forKey: "statusSuffix") ?? " | Eyes"
+        resetTimerOnSleep = defaults.bool(forKey: "resetTimerOnSleep")
     }
     
     func resetToDefaults() {
@@ -50,5 +57,6 @@ class SettingsManager: ObservableObject {
         overlayTitle = "Relax those eyes"
         overlayDescription = "Choose a distant view to set your sight on until the timer ends"
         statusSuffix = " | Eyes"
+        resetTimerOnSleep = false
     }
 }

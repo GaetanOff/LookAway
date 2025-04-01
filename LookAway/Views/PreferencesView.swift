@@ -83,6 +83,13 @@ struct PreferencesView: View {
                     .cornerRadius(4)
             }
             
+            Section() {
+                Toggle("Reset Timer on Sleep/Lock", isOn: $settings.resetTimerOnSleep)
+                    .onChange(of: settings.resetTimerOnSleep) { newValue, _ in
+                    }
+            }
+
+            
             Spacer()
             
             HStack {
@@ -100,7 +107,7 @@ struct PreferencesView: View {
             .padding(.bottom, 10)
         }
         .padding()
-        .frame(width: 500, height: 450)
+        .frame(width: 500, height: 480)
         .background(Color(NSColor.windowBackgroundColor))
     }
 }
