@@ -18,7 +18,7 @@
 
 ### **2️⃣ Unzip & Move it to your Applications Folder**
 
-### **3️⃣ Add it to your [startup items](https://www.lifewire.com/how-to-add-startup-items-to-mac-2260903) so that it launches automatically on startup**
+### **3️⃣ Add it to your [startup items](https://support.apple.com/en-gb/guide/mac-help/mh15189/mac) so that it launches automatically on startup**
 
 ---
 
