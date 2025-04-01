@@ -8,10 +8,16 @@ class TimerManager: ObservableObject {
     @Published var remainingSeconds: Int = 20 * 60
     @Published var isPaused: Bool = false
     @Published var breakActive: Bool = false
+    @Published var pauseRemainingSeconds: Int? = nil
     
     private var timer: Timer?
+    private var pauseTimer: Timer?
     private var pauseWorkItem: DispatchWorkItem?
     private var currentPauseDuration: Int?
+    
+    var currentPause: Int? {
+        return currentPauseDuration
+    }
     
     private var settingsCancellable: AnyCancellable?
     
@@ -59,27 +65,38 @@ class TimerManager: ObservableObject {
     }
     
     func pause(for seconds: Int) {
-        guard !isPaused else { return }
+        if isPaused, let current = pauseRemainingSeconds {
+            remainingSeconds -= current
+        }
         isPaused = true
         currentPauseDuration = seconds
         remainingSeconds += seconds
-        
-        let workItem = DispatchWorkItem {
-            self.isPaused = false
-            self.pauseWorkItem = nil
-            self.currentPauseDuration = nil
+        pauseRemainingSeconds = seconds
+
+        pauseTimer?.invalidate()
+        pauseTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            guard let self = self, let current = self.pauseRemainingSeconds else { return }
+            if current > 1 {
+                self.pauseRemainingSeconds = current - 1
+            } else {
+                self.pauseTimer?.invalidate()
+                self.pauseTimer = nil
+                self.isPaused = false
+                self.pauseRemainingSeconds = nil
+                self.currentPauseDuration = nil
+            }
         }
-        pauseWorkItem = workItem
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(seconds), execute: workItem)
     }
+
     
     func cancelPause() {
         if let pauseDuration = currentPauseDuration {
             remainingSeconds -= pauseDuration
             currentPauseDuration = nil
         }
-        pauseWorkItem?.cancel()
-        pauseWorkItem = nil
+        pauseTimer?.invalidate()
+        pauseTimer = nil
+        pauseRemainingSeconds = nil
         isPaused = false
     }
     
