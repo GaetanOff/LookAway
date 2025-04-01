@@ -7,7 +7,7 @@ class PreferencesWindowController: NSWindowController, NSWindowDelegate {
         let hostingView = NSHostingView(rootView: preferencesView)
         
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 500, height: 480),
+            contentRect: NSRect(x: 0, y: 0, width: 500, height: 550),
             styleMask: [.titled, .closable, .resizable],
             backing: .buffered,
             defer: false
