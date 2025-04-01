@@ -6,11 +6,15 @@ struct OverlayView: View {
     
     @State private var secondsRemaining: Int = 0
     @State private var countdownTimer: Timer?
+    @State private var opacity: Double = 0
+    @State private var scale: CGFloat = 0.95
     @ObservedObject var settings = SettingsManager.shared
     
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color.black
+                .ignoresSafeArea()
+                .opacity(opacity)
             
             RadialGradient(
                 gradient: Gradient(colors: [Color.gray.opacity(0.3), Color.black.opacity(0)]),
@@ -19,6 +23,7 @@ struct OverlayView: View {
                 endRadius: 500
             )
             .ignoresSafeArea()
+            .opacity(opacity)
             
             VStack(spacing: 20) {
                 Text(settings.overlayTitle)
@@ -43,8 +48,14 @@ struct OverlayView: View {
                     .monospacedDigit()
             }
             .padding()
+            .scaleEffect(scale)
+            .opacity(opacity)
         }
         .onAppear {
+            withAnimation(.easeOut(duration: 0.8)) {
+                opacity = 1.0
+                scale = 1.0
+            }
             startCountdown()
         }
     }
@@ -64,8 +75,17 @@ struct OverlayView: View {
     
     private func endBreak() {
         countdownTimer?.invalidate()
-        OverlayWindowController.shared.hideOverlay()
-        completion()
+        
+        // Animation de disparition douce
+        withAnimation(.easeIn(duration: 0.6)) {
+            opacity = 0
+            scale = 1.05
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            OverlayWindowController.shared.hideOverlay()
+            completion()
+        }
     }
     
     private func formattedTime(_ totalSeconds: Int) -> String {
