@@ -17,7 +17,7 @@ class StatusBarController: NSObject, NSWindowDelegate {
         super.init()
         
         if let button = statusItem.button {
-            button.title = "\(timerManager.remainingSeconds / 60)m" + SettingsManager.shared.statusSuffix
+            button.title = "\((timerManager.remainingSeconds + 59) / 60)m" + SettingsManager.shared.statusSuffix
         }
         constructMenu()
         
@@ -35,7 +35,8 @@ class StatusBarController: NSObject, NSWindowDelegate {
     
     private func updateStatusBar() {
         if let button = statusItem.button {
-            button.title = (timerManager.isPaused ? "Pause" : "\(timerManager.remainingSeconds / 60)m") + SettingsManager.shared.statusSuffix
+            let minutesRemaining = timerManager.remainingSeconds > 0 ? (timerManager.remainingSeconds + 59) / 60 : 0
+            button.title = (timerManager.isPaused ? "Pause" : "\(minutesRemaining)m") + SettingsManager.shared.statusSuffix
         }
         cancelPauseItem?.isHidden = !timerManager.isPaused
     }
