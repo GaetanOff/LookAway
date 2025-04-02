@@ -33,6 +33,7 @@ class TimerManager: ObservableObject {
         let workspaceNC = NSWorkspace.shared.notificationCenter
         workspaceNC.addObserver(self, selector: #selector(handleSleepOrLock), name: NSWorkspace.willSleepNotification, object: nil)
         workspaceNC.addObserver(self, selector: #selector(handleSleepOrLock), name: NSWorkspace.sessionDidResignActiveNotification, object: nil)
+        workspaceNC.addObserver(self, selector: #selector(handleSleepOrLock), name: NSWorkspace.didWakeNotification, object: nil)
     }
     
     func startTimer() {
