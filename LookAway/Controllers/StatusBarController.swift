@@ -93,6 +93,10 @@ class StatusBarController: NSObject, NSMenuDelegate, NSWindowDelegate {
         breakItem.target = self
         menu.addItem(breakItem)
         
+        let resetTimerItem = NSMenuItem(title: "Reset Timer", action: #selector(resetTimerAction), keyEquivalent: "r")
+        resetTimerItem.target = self
+        menu.addItem(resetTimerItem)
+        
         let cancelPause = NSMenuItem(title: "Cancel pause", action: #selector(cancelPauseAction), keyEquivalent: "c")
         cancelPause.target = self
         cancelPauseItem = cancelPause
@@ -143,6 +147,10 @@ class StatusBarController: NSObject, NSMenuDelegate, NSWindowDelegate {
     
     @objc func takeABreakAction() {
         timerManager.forceBreak()
+    }
+    
+    @objc func resetTimerAction() {
+        timerManager.resetTimer()
     }
     
     @objc func cancelPauseAction() {

@@ -87,16 +87,20 @@ class TimerManager: ObservableObject {
             }
         }
     }
-
     
     func cancelPause() {
-        if let pauseDuration = currentPauseDuration {
-            remainingSeconds -= pauseDuration
-            currentPauseDuration = nil
+        if isPaused {
+            if let pauseDuration = currentPauseDuration {
+                if remainingSeconds > pauseDuration {
+                    remainingSeconds -= pauseDuration
+                }
+            }
         }
+        
         pauseTimer?.invalidate()
         pauseTimer = nil
         pauseRemainingSeconds = nil
+        currentPauseDuration = nil
         isPaused = false
     }
     
